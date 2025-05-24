@@ -3,6 +3,7 @@ import React, { useState } from "react";
 export default function TodoInput({ todos, setTodos }) {
   const [todo, setTodo] = useState("");
   const addTodo = () => {
+    if (todo.trim() === "") return; // Prevent adding empty tasks
     setTodos([
       ...todos,
       {
@@ -13,6 +14,11 @@ export default function TodoInput({ todos, setTodos }) {
     ]);
     setTodo("");
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      addTodo();
+    }
+  };
   return (
     <div className="   lg:w-3/5 flex justify-between items-center gap-5 lg:px-20 py-10 w-11/12">
       <input
@@ -21,6 +27,7 @@ export default function TodoInput({ todos, setTodos }) {
         value={todo}
         placeholder="Enter Task"
         onChange={(e) => setTodo(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <button
         onClick={addTodo}
